@@ -23,7 +23,7 @@ pool.connect(function (err, database) {
     if (err) return console.error(err);
 
     require('./app/routes')(app, database);
-    app.listen(port, () => {
-        console.log('We are live on ' + port);
-    });
+    const server = app.listen(port, () => {
+        console.log(`Server running -> PORT ${server.address().port}`)
+    })
 });

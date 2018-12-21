@@ -19,11 +19,12 @@ const pool = new Pool({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-pool.connect(function (err, database) {
-    if (err) return console.error(err);
+pool
+    .connect()
+    .then(client => {
+        require('./app/routes')(app, client);
+    });
 
-    require('./app/routes')(app, database);
-    const server = app.listen(port, () => {
-        console.log(`Server running -> PORT ${server.address().port}`)
-    })
+const server = app.listen(port, () => {
+    console.log(`Server running -> PORT ${server.address().port}`)
 });

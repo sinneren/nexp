@@ -1,10 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { Pool } = require('pg');
+const mustacheExpress = require('mustache-express');
 
 require('dotenv').config();
-
-const app = express();
 
 const port = process.env.SERVER_PORT || 8000;
 
@@ -16,6 +15,11 @@ const pool = new Pool({
     port: process.env.PORT,
 });
 
+const app = express();
+
+app.engine('mustache', mustacheExpress());
+app.set('view engine', 'mustache');
+app.set('views', './app/views');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
